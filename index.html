@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ポケットあそび場</title>
+<meta name="description" content="友だちとそれぞれのスマホで遊べるミニゲーム集。部屋をつくってリンクを送るだけ。">
+<meta name="theme-color" content="#E7ECF2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11131A" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="ポケットあそび場">
+<meta property="og:description" content="友だちとそれぞれのスマホで遊べるミニゲーム集。部屋をつくってリンクを送るだけ。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="logo"><span class="dot" aria-hidden="true"></span>ポケットあそび場</div>
+    <div class="conn" id="conn"><i></i><span>接続中…</span></div>
+  </header>
+  <main id="view"></main>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<!-- 設定（Supabaseの接続先） -->
+<script src="/config.js"></script>
+<!-- 共通の道具 -->
+<script src="/js/core.js"></script>
+<!-- ミニゲーム：ここに1行足すと新しいゲームが増えます（並び順＝表示順） -->
+<script src="/js/games/janken.js"></script>
+<script src="/js/games/reaction.js"></script>
+<script src="/js/games/renda.js"></script>
+<script src="/js/games/tictactoe.js"></script>
+<!-- 通信とアプリ本体 -->
+<script src="/js/net.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
