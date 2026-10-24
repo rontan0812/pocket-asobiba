@@ -23,6 +23,7 @@ addGame({
   tone: "grape",         // カードの色：tomato / mustard / teal / grape / sky
   min: 2, max: 8,        // 遊べる人数
   blurb: "カードに出る説明文",
+  rules: `<ul><li>ルール…</li></ul>`,   // （任意）HTML。カードとゲーム中に「ルールを見る」ボタンが出る
 
   // ゲーム開始時（ホストだけ）。players = [{peer, name, emoji, color}, ...]
   // prev = 同じゲームを「もう一回」したときの前回の data（なければ null）

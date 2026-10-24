@@ -2,6 +2,10 @@
 addGame({
   id:"renda", name:"連打バトル", icon:"👆", tone:"mustard", min:1, max:8,
   blurb:"10秒間ひたすらタップ。みんなの回数がリアルタイムで伸びていく。",
+  rules:`<ul>
+    <li>3秒のカウントダウンのあと、10秒間ボタンをひたすらタップ。</li>
+    <li>みんなの回数が棒グラフでリアルタイムに伸びる。</li>
+    <li>いちばん多くタップした人の勝ち（同じ回数なら全員）。</li></ul>`,
 
   init(pl, now) {
     pl = pl.slice(0, this.max);

@@ -259,7 +259,7 @@
   let L = { gid: null };
   function syncLocal(c) {
     const d = c.d;
-    if (L.gid !== c.gid) L = { gid: c.gid, seq: d.seq || 0, n: d.n, sel: null, peek: false, q: [], ack: d.wait || 0, rules: false, turnN: d.n, ovH: null };
+    if (L.gid !== c.gid) L = { gid: c.gid, seq: d.seq || 0, n: d.n, sel: null, peek: false, q: [], ack: d.wait || 0, turnN: d.n, ovH: null };
     if (L.n !== d.n) { L.n = d.n; L.sel = null; L.peek = false; }
   }
   const seatOf = (d, me) => d.seats.indexOf(me);
@@ -292,12 +292,16 @@
   const cardInner = v => `<span class="v">${vs(v)}</span><span class="i">${I[v]}</span><span class="nm">${v === 5 ? "雑炊" : N[v]}</span>`;
   const mini = x => `<span class="ymini">${card(x.c, { s: 1 })}<span class="t ${x.c === x.d ? "ok" : "ng"}">${x.c === x.d ? "⭕本当" : "❌うそ"}</span></span>`;
   const btn = (label, tap, o = {}) => `<button class="${o.pri ? "pri" : ""}${o.cls ? " " + o.cls : ""}" data-tap="${tap}"${o.data || ""}${o.dis ? " disabled" : ""}${o.aria ? ` aria-label="${o.aria}"` : ""}>${label}</button>`;
-  const RULES = `<ul class="yrules">
+  const RULES = `<ul>
     <li>番には3つのうち1つ。<b>入れる</b>：手札1枚を伏せて鍋へ、具の名前を言う（うそOK）。<b>いただきます</b>：鍋が2枚以上なら（手札がない人は1枚でも）全部を表にして取り皿へ。<b>味見</b>：おたまで相手の具を1枚見る（1人2回）。</li>
     <li>味見でうそを見つけたら「うそだ！」。その具は見つけた人が、自分か相手の取り皿を選んで入れる。</li>
     <li>鍋が4枚なら次の人は必ずいただきます。パスは手札がない人だけ。</li>
     <li>しめの雑炊（+5）は山札の底。引いたら表で持ち、表で入れる。</li>
-    <li>2人とも手札がなくなったら終わり。残りの鍋は、それぞれ自分の具を自分で食べる。先手はお通しのきのこ（+2）から。とうがらしは1枚−3点。点が同じならとうがらしが少ない人の勝ち。</li></ul>`;
+    <li>2人とも手札がなくなったら終わり。残りの鍋は、それぞれ自分の具を自分で食べる。先手はお通しのきのこ（+2）から。とうがらしは1枚−3点。点が同じならとうがらしが少ない人の勝ち。</li></ul>
+    <table class="ruletable"><tr><th>具</th><th>点</th><th>枚数</th></tr>
+    <tr><td>🥩 肉</td><td>+4</td><td>4</td></tr><tr><td>🦐 えび</td><td>+3</td><td>5</td></tr><tr><td>🍄 きのこ</td><td>+2</td><td>7（1枚はお通し）</td></tr>
+    <tr><td>🥬 はくさい</td><td>+1</td><td>6</td></tr><tr><td>🌶️ とうがらし</td><td>−3</td><td>8</td></tr><tr><td>🍚 しめの雑炊</td><td>+5</td><td>2（山札の底）</td></tr></table>
+    <p class="note">2人ならそれぞれのスマホで対戦、1人ならコンピュータと対戦、3人目からは観戦。音の大きさは、ゲーム中の 🔊 ボタンで 切・小・中・大 と変わる。</p>`;
 
   // 席から見た名前など
   function names(d, c) {
@@ -376,6 +380,7 @@
   addGame({
     id: "yaminabe", name: "やみ鍋", icon: "🍲", tone: "grape", min: 1, max: 2,
     blurb: "伏せた具の名前を言って鍋へ。うそOKの読み合い。2人で対戦、1人ならコンピュータと。約15分。",
+    rules: RULES,
 
     init(pl, now, prev) {
       const ids = pl.map(p => p.peer);
@@ -436,7 +441,7 @@
 
       shell(el, "yami", `<div class="yami">
         <div class="ytop" data-r="top"></div>
-        <div class="yturnrow"><span data-r="snd"></span><div class="yturn" data-r="turn" role="status"></div>${btn("？", "rules", { cls: "yicon", aria: "ルールと音の設定" })}</div>
+        <div class="yturnrow"><span data-r="snd"></span><div class="yturn" data-r="turn" role="status"></div><span aria-hidden="true"></span></div>
         <div class="ypot lv0" data-r="potbar"><div class="ysteam" aria-hidden="true"><b></b><b></b><b></b><b></b></div><canvas data-r="bub" width="300" height="160" aria-hidden="true"></canvas>
           <div class="yh" data-r="heat"></div><div class="yslots" data-r="pot"></div></div>
         <div class="ychat" data-r="chat" aria-live="polite"></div>
@@ -536,13 +541,10 @@
           body: `<div class="yrow"><div class="yslotc"><span class="claim o">「${N[x.d]}」と言っていた</span>${card(x.c, { cls: "flipin" })}<span class="ystamp">うそ！</span></div></div>
             <p>「${N[x.d]}」と言っていたのに、本当は${N[x.c]}（${vs(x.c)}）。この具をどちらの取り皿に入れますか？</p>`,
           buttons: btn("自分の取り皿へ", "to", { pri: x.c > 0, data: ` data-to="self"`, dis: pending }) + btn(`${w.who(op)}の取り皿へ`, "to", { pri: x.c < 0, data: ` data-to="opp"`, dis: pending }) });
-      } else if (L.rules) {
-        ov = sheetHTML({ title: "やみ鍋のルール", body: `<div><div class="ylab">音の大きさ</div><div class="yseg">${LV.map((l, k) => btn(l, "lvl", { data: ` data-l="${k}" aria-pressed="${sn === k}"` })).join("")}</div></div>${RULES}`,
-          buttons: btn("とじる", "rclose", { pri: 1 }) });
       } else if (L.q.length) ov = eventSheet(L.q[0], d, w);
       const ovEl = R$(el, "ov");
       patch(ovEl, ov);
-      const key = ov ? ov.length + ":" + (L.q[0]?.k || "") + d.phase + L.rules : "";
+      const key = ov ? ov.length + ":" + (L.q[0]?.k || "") + d.phase : "";
       if (key !== L.ovH) { L.ovH = key; const f = ovEl.querySelector(".ybtns .pri") || ovEl.querySelector(".ybtns button"); if (f) f.focus({ preventScroll: true }); }
     },
 
@@ -550,9 +552,6 @@
       const d = c.d, S = d.S;
       syncLocal(c);
       if (kind === "snd") { Sfx.setLevel((Sfx.n + 1) % 4); Sfx.play("tap"); return; }
-      if (kind === "lvl") { Sfx.setLevel(Math.max(0, Math.min(3, +ds.l || 0))); Sfx.play("tap"); return; }
-      if (kind === "rules") { L.rules = true; return; }
-      if (kind === "rclose") { L.rules = false; return; }
       if (kind === "ok") { const e = L.q.shift(); if (e) ack(c, e.k); return; }
       const seat = seatOf(d, c.me);
       if (seat < 0 || (c.my && c.my.n === d.n && c.my.a)) return;

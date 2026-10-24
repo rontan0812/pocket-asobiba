@@ -159,7 +159,8 @@ function cartHTML(g, opts = {}) {
   return `<article class="cart" style="--tone:var(--${g.tone})">
     <div class="label"><span class="icon" aria-hidden="true">${g.icon}</span><span class="cnt">${g.min === g.max ? g.min + "人" : g.min + "–" + g.max + "人"}</span></div>
     <div class="body"><h3 class="name">${esc(g.name)}</h3><p class="blurb">${esc(g.blurb || "")}</p>
-    ${opts.play ? `<button class="btn sm ${need ? "" : "go"}" data-act="start" data-game="${g.id}" ${need ? "disabled" : ""}>${need ? `あと${need}人必要` : "はじめる"}</button>` : ""}</div>
+    <div class="cartbtns">${opts.play ? `<button class="btn sm ${need ? "" : "go"}" data-act="start" data-game="${g.id}" ${need ? "disabled" : ""}>${need ? `あと${need}人必要` : "はじめる"}</button>` : ""}
+    ${g.rules ? `<button class="btn sm ghost" data-act="rules" data-game="${g.id}" aria-label="${esc(g.name)}のルールを見る">ルールを見る</button>` : ""}</div></div>
   </article>`;
 }
 function homeShell() {
@@ -230,7 +231,7 @@ function drawRoom(v) {
   }
   const g = GAMES[hs.game], d = hs.data, end = d.phase === "end";
   shell(st, `g:${hs.gid}:${end ? 1 : 0}`, `<section class="card">
-      <div class="gamehead"><span class="gtitle">${g.icon} ${esc(g.name)}</span><span data-r="spect"></span><button class="btn sm ghost" data-act="lobby">やめる</button></div>
+      <div class="gamehead"><span class="gtitle">${g.icon} ${esc(g.name)}</span><span data-r="spect"></span>${g.rules ? `<button class="btn sm" data-act="rules" data-game="${g.id}" aria-label="${esc(g.name)}のルールを見る">📖 ルール</button>` : ""}<button class="btn sm ghost" data-act="lobby">やめる</button></div>
       <div class="gbody" data-r="gbody"></div>
     </section>`);
   const c = ctx(ps);
@@ -305,6 +306,27 @@ async function shareLink() {
   copyLink();
 }
 
+/* ---------- ルールの画面 ---------- */
+let rulesFrom = null;
+function openRules(id, from) {
+  const g = GAMES[id], m = $("#rules"); if (!g || !g.rules || !m) return;
+  rulesFrom = from || null;
+  m.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rules-h">
+    <div class="sheethead" style="--tone:var(--${g.tone})"><span class="icon" aria-hidden="true">${g.icon}</span>
+      <div class="sheettitle"><h2 class="h2" id="rules-h">${esc(g.name)}のルール</h2><span class="eyebrow">${g.min === g.max ? g.min + "人" : g.min + "–" + g.max + "人"}</span></div>
+      <button class="btn sm ghost xclose" data-act="rclose" aria-label="ルールをとじる">✕</button></div>
+    <div class="rulebody">${g.rules}</div>
+    <button class="btn primary wide" data-act="rclose">とじる</button></div>`;
+  m.hidden = false; document.body.classList.add("noscroll");
+  m.querySelector("[data-act=rclose]").focus({ preventScroll:true });
+}
+function closeRules() {
+  const m = $("#rules"); if (!m || m.hidden) return;
+  m.hidden = true; m.innerHTML = ""; document.body.classList.remove("noscroll");
+  if (rulesFrom && document.contains(rulesFrom)) rulesFrom.focus({ preventScroll:true });
+  rulesFrom = null;
+}
+
 /* ---------- 操作 ---------- */
 document.addEventListener("pointerdown", e => {
   const b = e.target.closest("[data-tap]");
@@ -313,11 +335,13 @@ document.addEventListener("pointerdown", e => {
   try { GAMES[hs.game].tap(b.dataset.tap, b.dataset, ctx(players())); } catch (err) { console.error(err); }
 });
 document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !$("#rules")?.hidden) { closeRules(); return; }
   if ((e.key === "Enter" || e.key === " ") && e.target.matches?.("[data-tap]")) {
     e.preventDefault(); e.target.dispatchEvent(new PointerEvent("pointerdown", { bubbles:true }));
   }
 });
 document.addEventListener("click", e => {
+  if (e.target.id === "rules") { closeRules(); return; }   // 画面の外側を押したら閉じる
   const b = e.target.closest("[data-act]");
   if (!b || b.disabled) return;
   const a = b.dataset.act;
@@ -330,6 +354,8 @@ document.addEventListener("click", e => {
   else if (a === "share") shareLink();
   else if (a === "copy") copyLink();
   else if (a === "qr") toggleQR();
+  else if (a === "rules") openRules(b.dataset.game, b);
+  else if (a === "rclose") closeRules();
 });
 document.addEventListener("input", e => {
   if (e.target.id === "name") { me.name = e.target.value.slice(0, 12); clearTimeout(saveMe.t); saveMe.t = setTimeout(saveMe, 300); }
