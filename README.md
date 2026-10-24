@@ -48,7 +48,7 @@ window.PA_CONFIG = {
 
 ### 3.（任意）共有したときのプレビュー画像
 
-LINE や X でリンクを共有したときに画像を出すには、`index.html` の `og:image` を完全なURL（例：`https://pocket-asobiba.vercel.app/og.png`）に書き換えてください。
+共有プレビュー画像は `index.html` の `og:image` / `og:url` に完全なURLで設定済みです（https://pocket-asobiba.vercel.app）。ドメインを変えたらここも書き換えてください。
 
 ## 手元で試す
 
