@@ -6,6 +6,6 @@
 // どちらもブラウザに載せる前提の公開用キーなので、ここに書いて公開して大丈夫です。
 // （service_role / secret key は絶対に書かないでください）
 window.PA_CONFIG = {
-  supabaseUrl: "",
-  supabaseKey: ""
+  supabaseUrl: "https://gmhlkyvehzmzmmaxifhl.supabase.co",
+  supabaseKey: "sb_publishable_r1wul-h6UTV5ZSEnqTf4RQ_S9GOkxpZ"
 };
