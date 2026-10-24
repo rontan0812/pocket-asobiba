@@ -195,3 +195,127 @@ button.av{cursor:pointer;padding:0;box-shadow:3px 3px 0 var(--drop)}
 .linkbox{font-family:var(--f-dot);font-size:12.5px;color:var(--muted);word-break:break-all;user-select:all;-webkit-user-select:all;background:var(--paper);border:2px dashed var(--sunk);border-radius:10px;padding:6px 10px}
 .setup{border:2px dashed var(--tomato);background:transparent;box-shadow:none}
 .setup code{font-family:var(--f-dot);font-size:12.5px}
+
+/* yaminabe（やみ鍋）：この枠の中だけ「暗がりで光る土鍋」の色にする（明るい画面でも同じ） */
+.yami{--ybg:#17141a;--ypanel:#221e26;--yline:#34303b;--ypaper:#f4ecdd;--yink:#2a2420;--ydim:#b8b0c0;--ysteam:#f2ece2;
+  --yopp:#8db6ff;--yoppbg:#1f2a40;--yme:#ffcf7a;--ymebg:#3d2f1a;--ysys:#2a2630;--ychili:#ff6b55;--yok:#9fd98f;--ybtn:#e7924c;
+  --ydisp:"Yusei Magic",var(--f-body);
+  background:var(--ybg);color:var(--ysteam);border:2px solid var(--edge);border-radius:var(--r);padding:10px 8px 8px;
+  display:flex;flex-direction:column;gap:8px;min-width:0;font-weight:500;line-height:1.5}
+.yami>*{min-width:0}
+.yami button{font-family:var(--f-body);font-weight:900;font-size:15px;color:var(--ysteam);background:transparent;border:1.5px solid var(--ybtn);border-radius:14px;min-height:48px;padding:0 10px;cursor:pointer;touch-action:manipulation}
+.yami button.pri{background:var(--ybtn);color:#1a1209}
+.yami button:disabled{opacity:.45;cursor:default}
+.yami :focus-visible{outline:3px solid var(--yme);outline-offset:2px}
+.ytop{display:flex;align-items:center;gap:6px}
+.yturnrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:6px}
+.ypts{flex:1 1 0;display:flex;gap:6px;align-items:baseline;justify-content:space-between;border-radius:999px;padding:3px 12px;font-size:13.5px;font-weight:900;min-width:0;white-space:nowrap}
+.ypts .nm{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ypts b{font-size:15px;font-variant-numeric:tabular-nums}
+.ypts.o{background:var(--yoppbg);color:var(--yopp)}.ypts.m{background:var(--ymebg);color:var(--yme)}
+.yami .yicon{flex:none;min-width:44px;min-height:44px;padding:0 8px;font-size:14px;border-color:var(--yline);white-space:nowrap}
+.yturn{justify-self:center;display:flex;align-items:center;justify-content:center;border-radius:999px;padding:3px 12px;font-weight:900;font-size:14px;min-height:34px;line-height:1.3;text-align:center;max-width:100%;word-break:keep-all;overflow-wrap:anywhere}
+.yturn.m{background:var(--ymebg);color:var(--yme);border:1.5px solid var(--yme)}
+.yturn.o{background:var(--yoppbg);color:var(--yopp);border:1.5px solid var(--yopp)}
+.yturn.end{background:var(--ysys);color:var(--ysteam);border:1.5px solid var(--yline)}
+/* 鍋：真上から見た土鍋。鍋の枚数で明かりと湯気が強まり、4枚でぐらぐら揺れる */
+.ypot{position:relative;border-radius:50% / 46%;padding:14px 2px 18px;margin-top:12px;display:grid;gap:4px;
+  background:radial-gradient(ellipse at 50% 50%,#5a3d27 0%,#3a2819 55%,#26190f 68%,#6b4429 70%,#9c6a3f 74%,#5b3a24 78%,#17110c 82%,transparent 84%);transition:box-shadow .4s}
+.ypot.lv1{box-shadow:0 0 22px rgba(255,170,90,.10)}.ypot.lv2{box-shadow:0 0 30px rgba(255,170,90,.18)}
+.ypot.lv3{box-shadow:0 0 40px rgba(255,150,80,.28)}.ypot.lv4{box-shadow:0 0 52px rgba(255,90,60,.45)}
+.ysteam{position:absolute;left:0;right:0;top:-24px;height:38px;display:flex;justify-content:center;gap:30px;pointer-events:none}
+.ysteam b{width:9px;height:32px;border-radius:50%;background:linear-gradient(transparent,rgba(239,232,217,.35),transparent);opacity:0}
+.lv1 .ysteam b:nth-child(-n+1),.lv2 .ysteam b:nth-child(-n+2),.lv3 .ysteam b:nth-child(-n+3),.lv4 .ysteam b{opacity:.55;animation:yrise 2.2s infinite}
+.ysteam b:nth-child(2){animation-delay:.6s}.ysteam b:nth-child(3){animation-delay:1.2s}.ysteam b:nth-child(4){animation-delay:1.7s}
+.lv4 .ysteam b{animation-duration:1s}.ypot.lv4{animation:yboil .45s infinite alternate}
+@keyframes yrise{0%{opacity:0;transform:translateY(16px)}40%{opacity:1}100%{opacity:0;transform:translateY(-22px) scaleX(2)}}
+@keyframes yboil{to{transform:translateY(-2px)}}
+.ypot canvas{position:absolute;inset:12% 10%;width:80%;height:76%;pointer-events:none;border-radius:50%}
+.yh{position:relative;display:flex;justify-content:center;gap:8px;align-items:center;font-size:13px}
+.ymeter{display:flex;gap:3px}.ymeter i{width:20px;height:8px;border-radius:4px;background:#2a2026;border:1px solid #6b4429}.ymeter i.on{background:var(--ybtn)}.ymeter.full i.on{background:var(--ychili)}
+.yslots{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;min-height:130px}
+.yslot{display:flex;align-items:center;gap:3px;border-radius:10px;padding:2px;min-width:0}
+.yslot.o{background:rgba(31,42,64,.75)}.yslot.m{background:rgba(61,47,26,.75)}
+.yslot .lab{display:flex;flex-direction:column;gap:2px;min-width:0;align-items:flex-start}
+.yslot .who{font-size:12px;font-weight:900;white-space:nowrap;background:rgba(0,0,0,.55);border-radius:8px;padding:0 3px;max-width:100%;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.02em}
+.yslot.o .who{color:var(--yopp)}.yslot.m .who{color:var(--yme)}
+.yslot .who.claim{background:var(--ypaper);color:var(--yink)!important;border-radius:6px}
+.yfree{border:1.5px dashed rgba(255,207,138,.35);border-radius:10px;display:grid;place-items:center;font-size:12px;min-height:58px;align-self:center}
+/* カード */
+.yami .ycard{width:58px;height:80px;border-radius:9px;background:var(--ypaper);color:var(--yink);border:2px solid #b9a98f;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;flex:none;font-size:12px;font-weight:900;padding:0;min-height:0;user-select:none;-webkit-user-select:none}
+.ycard .v{position:absolute;top:2px;left:5px;font-size:14px}
+.ycard .i{font-size:26px;line-height:1.1;font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif}
+.ycard .nm{white-space:nowrap}
+.yami .ycard.bad{border-color:var(--ychili);background:#ffe9e5}.yami .ycard.zou{border-color:#a1887f;background:#fff5df}
+.yami .ycard.back{background:repeating-linear-gradient(45deg,#3b4a6b 0 6px,#33405e 6px 12px);border-color:#0f121a;color:var(--ysteam)}
+.ycard.back .i{font-size:20px}
+.yami .ycard.s{width:40px;height:56px}.ycard.s .i{font-size:18px}.ycard.s .v{font-size:12px}.ycard.s .nm{display:none}
+.yami .ycard.pick{cursor:pointer}
+.yslots .ycard.pick{box-shadow:0 0 0 3px var(--yme);animation:yglow .9s infinite alternate}
+@keyframes yglow{to{box-shadow:0 0 0 5px var(--ybtn)}}
+/* 会話：言った言葉が残るので、前のうそを読み返せる */
+.ychat{max-height:150px;min-height:84px;overflow-y:auto;padding:16px 2px 6px;display:flex;flex-direction:column;gap:8px;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 16px);mask-image:linear-gradient(transparent 0,#000 16px)}
+.ymsg{max-width:86%;display:flex;gap:6px;align-items:flex-end}
+.ymsg .b{border-radius:16px;padding:7px 11px;font-size:14.5px;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere}
+.ymsg.o{align-self:flex-start}.ymsg.o .b{background:var(--yoppbg);border:1px solid #2f4266;border-bottom-left-radius:4px}
+.ymsg.m{align-self:flex-end;flex-direction:row-reverse}.ymsg.m .b{background:var(--ymebg);border:1px solid #5a4423;border-bottom-right-radius:4px}
+.ymsg small{display:block;font-size:12px;color:var(--ydim)}
+.ymsg small.sp{font-weight:900}.ymsg.o small.sp{color:var(--yopp)}.ymsg.m small.sp{color:var(--yme)}
+.ysys{align-self:center;max-width:96%;background:var(--ysys);border:1px solid var(--yline);border-radius:14px;padding:7px 11px;font-size:13.5px;text-align:center;word-break:keep-all;overflow-wrap:anywhere}
+.ysys.lie{border-color:var(--ychili)}.ysys.lie b{color:var(--ychili)}
+.ychat .new{animation:ypop .22s both}
+@keyframes ypop{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.yrow{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:6px}
+.ymini{display:inline-flex;flex-direction:column;align-items:center;gap:2px;font-size:12px}
+.ymini .t{font-weight:900}.ymini .t.ok{color:var(--yok)}.ymini .t.ng{color:var(--ychili)}
+/* 下の入力欄 */
+.ycomp{background:var(--ypanel);border:1px solid var(--yline);border-radius:16px;padding:8px;display:grid;gap:8px}
+.ymine{font-size:12.5px;color:var(--ydim);line-height:1.4}
+.nw{white-space:nowrap}
+.yhand{display:flex;gap:8px;align-items:flex-end;justify-content:center;min-height:96px}
+.yami .yhand .ycard{width:72px;height:96px;border-radius:11px;font-size:14px}
+.yhand .ycard .i{font-size:34px}.yhand .ycard .v{font-size:16px}
+.yhand .ycard .nm{font-size:12.5px;letter-spacing:-.04em}
+.yami .yhand .ycard.sel{transform:translateY(-10px);box-shadow:0 0 0 3px var(--yme)}
+.yhand .ycard{transition:transform .15s}
+.yprompt{font-size:13.5px;color:var(--ydim);text-align:center;margin:0;word-break:keep-all;overflow-wrap:anywhere;align-self:center}
+.yreplies{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.yami .yreplies button{min-height:48px;font-size:13px;border-radius:999px;white-space:nowrap;padding:0 4px;letter-spacing:-.03em}
+.yami .yreplies .truth{box-shadow:inset 0 0 0 2px var(--yme)}
+.yacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.yami .yacts button{min-height:52px}
+/* 重ねて出す画面 */
+.yov{position:fixed;inset:0;background:rgba(10,8,12,.86);display:flex;align-items:flex-end;justify-content:center;z-index:30;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+@media (min-width:700px){.yov{align-items:center}}
+.ysheet{background:var(--ypanel);color:var(--ysteam);border:1px solid var(--ybtn);border-radius:22px;padding:20px;max-width:500px;width:100%;display:grid;gap:12px;max-height:100%;overflow:auto}
+.ysheet h3{font-family:var(--ydisp);font-weight:400;font-size:24px;line-height:1.25;word-break:keep-all;overflow-wrap:anywhere}
+.ysheet p{margin:0;font-size:15.5px}
+.ysheet.shake{animation:yshake .45s}
+@keyframes yshake{20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+.yslotc{display:flex;flex-direction:column;align-items:center;gap:4px}
+.yslotc .claim{font-size:12px;font-weight:900;border-radius:9px;padding:1px 7px;color:#1a1209}
+.yslotc .claim.o{background:var(--yopp)}.yslotc .claim.m{background:var(--yme)}
+.flipin{animation:yflip .38s both}
+@keyframes yflip{from{transform:rotateY(90deg)}to{transform:none}}
+.ystamp{display:inline-block;transform:rotate(-8deg);border:3px solid var(--ychili);color:var(--ychili);font-family:var(--ydisp);font-size:26px;border-radius:10px;padding:0 12px;background:rgba(0,0,0,.3);animation:ystamp .4s .25s both}
+@keyframes ystamp{from{transform:scale(2.2) rotate(-14deg);opacity:0}to{transform:rotate(-8deg);opacity:1}}
+.ytag{font-size:13px;font-weight:900;border-radius:8px;padding:2px 8px}
+.ytag.ok{background:#cfe9c8;color:#1f3d1a}.ytag.ng{background:#ffc9bf;color:#5a1610}
+.ybtns{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.yami .ybtns button{min-height:56px}
+.ylab{font-size:13px;color:var(--ydim);margin-bottom:4px}
+.yseg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.yami .yseg button{border-color:var(--yline)}
+.yami .yseg button[aria-pressed="true"]{background:var(--ybtn);color:#1a1209}
+.yrules{font-size:14px;line-height:1.6;padding-left:18px;margin:0}
+/* 結果画面の表（アプリの明るい／暗い色に合わせる） */
+.yend{display:grid;gap:6px}
+.yscore{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.yscore th,.yscore td{padding:6px 3px;border-bottom:2px solid var(--sunk);text-align:center;white-space:nowrap}
+.yscore tr:first-child th{font-size:11.5px;color:var(--muted)}
+.yscore th .av{display:inline-grid;vertical-align:middle;margin-right:4px}
+.yscore th .nm{display:inline-block;max-width:5em;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+.yscore tr.win{background:var(--mustard);color:var(--on-accent)}
+.ykey{margin:0;font-weight:900;text-align:center;word-break:keep-all;overflow-wrap:anywhere}
