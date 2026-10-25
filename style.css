@@ -406,3 +406,67 @@ span.obpc{cursor:default;min-width:0;min-height:0}
 .obendbox .obbox.mini{width:100%;max-width:170px}
 .obtable td{text-align:right}
 @media (max-width:380px){.obbox.mini{width:112px}.obrow{flex-wrap:wrap}}
+/* ===== 山分けの掟（js/games/yamawake.js）：板張りの甲板を真上から。会話の吹き出しは やみ鍋 の .ychat/.ymsg/.ysys を使う ===== */
+.tkm{--yopp:#9cc4ff;--yoppbg:#24324a;--yme:#ffd27f;--ymebg:#4a351c;--ysys:#3a2a1a;--yline:#6b4a2a;--ydim:#e6d3b3;--ysteam:#fff6e6;
+  --tkwood:#8f5d30;--tkplank:#9d6a39;--tkpaper:#f3e3bf;--tkink:#3b1f08;--tkbtn:#ffd27f;
+  background:repeating-linear-gradient(180deg,var(--tkplank) 0 44px,#5e3b1c 44px 46px,var(--tkwood) 46px 90px,#5e3b1c 90px 92px);
+  color:var(--ysteam);border:2px solid var(--edge);border-radius:var(--r);padding:10px 8px 8px;
+  display:flex;flex-direction:column;gap:8px;min-width:0;font-weight:500;line-height:1.5}
+.tkm>*{min-width:0}
+.tkm button{font-family:var(--f-body);font-weight:900;font-size:14.5px;color:var(--tkink);background:var(--tkpaper);border:2px solid var(--tkink);
+  border-radius:12px;min-height:46px;padding:0 10px;cursor:pointer}
+.tkm button.pri{background:var(--tkbtn)}
+.tkm button:disabled{opacity:.45;cursor:default}
+.tkm :focus-visible{outline:3px solid #fff;outline-offset:2px}
+.tkm .tkg{display:inline-block;vertical-align:middle;flex:none}
+.tktop{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.tkchip{display:inline-flex;align-items:center;gap:4px;background:rgba(43,26,11,.78);border:1px solid #c9a46a;border-radius:999px;padding:1px 10px;font-size:12.5px;font-weight:900;white-space:nowrap}
+.tkchip.me{background:var(--ymebg);color:var(--yme);border-color:var(--yme)}
+.tkord{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e8dcc0;border:1.5px solid #6b4a1a;color:#6b4a1a;font-size:11px;font-weight:900;line-height:1}
+.tkturn{align-self:center;border-radius:999px;padding:3px 14px;font-weight:900;font-size:14px;text-align:center;min-height:32px;display:flex;align-items:center}
+.tkturn.m{background:var(--ymebg);color:var(--yme);border:1.5px solid var(--yme)}
+.tkturn.o{background:var(--yoppbg);color:var(--yopp);border:1.5px solid var(--yopp)}
+.tkturn.end{background:#3b1f08;color:#ffe28a;border:1.5px solid #ffe28a}
+.tkside{background:rgba(43,26,11,.62);border-radius:14px;padding:6px 8px;display:grid;gap:4px}
+.tkside.o{border:1.5px solid var(--yopp)}.tkside.m{border:1.5px solid var(--yme)}
+.tkname{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:14px}
+.tkrole{font-family:var(--f-dot);font-size:12px;border-radius:6px;padding:0 6px;background:#fff6e6;color:var(--tkink)}
+.tkhold{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:13px}
+.tklab{font-size:12px;color:var(--ydim);font-weight:900}
+.tkdim{font-size:12.5px;color:var(--ydim)}
+.tkcnt{display:inline-flex;align-items:center;gap:2px}.tkcnt b{font-variant-numeric:tabular-nums}.tkcnt i{font-style:normal;font-size:11px;color:var(--ydim);margin-right:2px}
+.tklog{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}
+.tkslot{position:relative;min-height:42px;border-radius:8px;background:rgba(239,220,178,.9);border:2.5px solid;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:12px 1px 2px;color:var(--tkink)}
+.tkslot.m{border-color:#ffb24d}.tkslot.o{border-color:#7fb0ff}
+.tkslot.now{box-shadow:0 0 0 2px #fff}
+.tkslot i{position:absolute;top:0;left:3px;font-style:normal;font-size:10.5px;font-weight:900}
+.tkslot small{font-size:10px;line-height:1;font-weight:900}
+.tkboard{background:#efdcb2;color:var(--tkink);border:3px solid #6b4a1a;border-radius:16px;padding:8px;display:grid;gap:6px}
+.tkhint{margin:0;font-size:13px;text-align:center}
+.tkdraw{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.tkm .tkpick{min-height:56px;min-width:56px;padding:4px;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;background:#fffaf0;border:2px solid #b08a4e}
+.tkm .tkpick.on{outline:4px solid #e7924c;background:#ffe9c2}
+.tkpick small{font-size:10.5px}
+.tkhalves{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);gap:4px;min-height:120px}
+.tkhalf{position:relative;border:2px dashed #b08a4e;border-radius:12px;background:#e6cf9c;padding:6px 4px 22px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;justify-content:center}
+.tkm button.tkhalf{min-height:120px;font-weight:900;color:var(--tkink);border:3px solid #e7924c;background:#f3dda6;animation:tkglow .9s infinite alternate}
+.tkhalf>span:last-child{position:absolute;left:0;right:0;bottom:3px;text-align:center;font-size:12.5px;font-weight:900;color:#8a6a2a}
+.tkitem{display:inline-flex;flex-direction:column;align-items:center}.tkitem small{font-size:10.5px;font-weight:900}
+.tkrope{border-radius:7px;background:repeating-linear-gradient(180deg,#d8b46a 0 8px,#8a6a2a 8px 13px)}
+@keyframes tkglow{to{box-shadow:0 0 0 4px rgba(231,146,76,.6)}}
+.tkchat{background:rgba(23,14,6,.7);border-radius:12px;max-height:170px}
+.tkpl{display:inline-flex;align-items:center;gap:1px;margin:2px 6px 0 0;font-size:12px}
+.tkcomp{background:rgba(23,14,6,.82);border:1px solid #6b4a2a;border-radius:14px;padding:8px;display:grid;gap:8px}
+.tkprompt{margin:0;font-size:13.5px;text-align:center;color:var(--ydim);min-height:1.4em}
+.tkacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px}
+.tkm .tkcol{display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.tkm .truth{box-shadow:inset 0 0 0 3px #e7924c}
+.tkledger{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;color:var(--tkink)}
+.tkledger th,.tkledger td{border-bottom:1.5px solid #c9a46a;padding:4px 3px;text-align:center}
+.tkledger th:first-child{text-align:left;white-space:nowrap}
+.tkledger .nm{margin-left:4px;font-size:12.5px}
+.tkledger tr.win td b,.tkledger tr.win .nm{color:#b3261e}
+.tkledger td b{font-size:17px}
+.tkend{background:#efdcb2;color:var(--tkink)}
+.tkend .tklab,.tkend .tkcnt i{color:#6b4a1a}
+@media (prefers-reduced-motion: reduce){.tkm button.tkhalf{animation:none}}
